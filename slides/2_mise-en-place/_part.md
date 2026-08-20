@@ -5,7 +5,7 @@ classes = ["no_title", "center"]
 
 # La mise en place
 
-## [PyO3](https://pyo3.rs/) + [Maturin](https://www.maturin.rs/), et on ouvre
+## [PyO3](https://pyo3.rs/) + [Maturin](https://www.maturin.rs/), et on écrit du code
 
 <!-- notes -->
 

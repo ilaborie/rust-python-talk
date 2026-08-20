@@ -1,5 +1,5 @@
 +++
-title = "La carte"
+title = "Références"
 classes = ["no_title", "center", "merci"]
 +++
 
@@ -9,7 +9,7 @@ section.merci h2 { font-size: 130%; font-style: italic; font-weight: 400; color:
 section.merci ul { font-size: 78%; text-align: left; display: inline-block; }
 </style>
 
-# Merci ! 🦀 🐍
+# Merci !
 
 ## Des questions ?
 
@@ -17,7 +17,8 @@ section.merci ul { font-size: 78%; text-align: left; display: inline-block; }
   [écosystème PyO3](https://pyo3.rs/v0.29.2/ecosystem.html) ·
   [pyo3-async-runtimes](https://github.com/PyO3/pyo3-async-runtimes) ·
   [rust-numpy](https://github.com/PyO3/rust-numpy) ·
-  [py-spy](https://github.com/benfred/py-spy)
+  [py-spy](https://github.com/benfred/py-spy) ·
+  [maturin-import-hook](https://github.com/PyO3/maturin-import-hook)
 - **Les talks de David Hewitt**, mainteneur PyO3 —
   [PyO3 en profondeur](https://www.youtube.com/watch?v=UilujdubqVU) ·
   [Free-threaded Python](https://www.youtube.com/watch?v=J7phN_M4GLM) ·

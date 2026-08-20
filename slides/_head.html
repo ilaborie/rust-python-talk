@@ -7,15 +7,19 @@
    tient que sur un écran ≥ 1920×1080 et déborde partout ailleurs.
 
    On rend la base typographique proportionnelle au viewport, en prenant la
-   contrainte la plus serrée des deux axes. Les coefficients reproduisent
-   exactement 32px en 1920×1080, donc : ce qui tient en Full HD tient partout.
+   contrainte la plus serrée des deux axes. Les coefficients donnent 40px en
+   1920×1080, donc : ce qui tient en Full HD tient partout.
 
-     1080 × 0.0296  = 32px      1920 × 0.01667 = 32px
+     1080 × 0.037 = 40px        1920 × 0.02083 = 40px
 
-   Le clamp n'est qu'un garde-fou : 64px correspond exactement au 4K natif.
+   40px, et pas plus : au-delà de 46px la slide « Le résultat » déborde. Mesuré
+   sur l'export statique, JS coupé (toutes les étapes révélées, chaque slide à
+   100vh), de 1280×800 à 3840×2160.
+
+   Le clamp n'est qu'un garde-fou : 80px correspond exactement au 4K natif.
    ------------------------------------------------------------------------ */
 html {
-	font-size: clamp(10px, min(2.96vh, 1.667vw), 64px);
+	font-size: clamp(10px, min(3.7vh, 2.083vw), 80px);
 }
 
 /* ------------------------------------------------------------------------

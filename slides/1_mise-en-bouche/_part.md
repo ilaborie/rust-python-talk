@@ -5,9 +5,9 @@ classes = ["no_title", "center"]
 
 # Mise en bouche
 
-## Pourquoi mettre du 🦀 dans du 🐍 ?
+## Pourquoi mettre du Rust dans du Python ?
 
 <!-- notes -->
 
-- Section courte, 3 slides, ~3 min
-- Le constat → comment c'est techniquement possible → pourquoi PyO3 plutôt que la FFI brute
+- Section courte, 4 slides, ~3 min
+- Le constat → ce qu'apporte vraiment l'interop → pourquoi on le fait → ce qui ne colle pas entre les deux langages

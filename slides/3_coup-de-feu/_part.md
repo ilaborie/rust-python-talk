@@ -5,7 +5,7 @@ classes = ["no_title", "center"]
 
 # Le coup de feu
 
-## Ce que ça donne quand la salle est pleine
+## Deux projets, en production
 
 <!-- notes -->
 

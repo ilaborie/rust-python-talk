@@ -34,12 +34,16 @@ cuisine, et le comptoir coûte quelque chose à franchir.**
 | Rôle | Hex | Origine |
 |---|---|---|
 | Accent primaire / Rust | `#B13F15` | carapace du crabe |
-| Accent secondaire / Python | `#546051` | cape du serpent |
+| Accent secondaire / Python | `#4B7F52` | cape du serpent, repoussée vers le vert |
 | Fond clair / crème | `#E3C184` | enseigne du camion |
 | Bleu-vert de marque | `#728B83` | carrosserie |
 | Texte fort / ardoise | `#2D2B25` | tableau du menu |
 | Surlignage | `#D9B758` | lettrage jaune du menu |
 | Respiration | `#71B4EC` | ciel |
+
+Le vert de la cape (`#546051`) est franchement gris une fois projeté sur fond
+blanc : on garde la teinte mais on la sature, d'où `#4B7F52` — contraste 4,8:1
+avec du texte blanc, au-dessus du seuil AA.
 
 Usage : accent primaire pour les mots-clés Rust, secondaire pour Python, ardoise
 pour le texte. Le reste des slides garde le rendu Toboggan par défaut — la
@@ -47,7 +51,9 @@ palette ne sert que dans les `<style>` inline (couverture, slide de fin).
 
 ## 3. Lexique
 
-La table qui pilote **tous** les titres du deck.
+La table qui pilote les **titres de chapitre** (les `_part.md`) et la
+couverture. Au niveau des slides, elle n'est plus qu'une réserve d'idées :
+voir la règle 1 ci-dessous.
 
 | Concept technique | Terme cuisine |
 |---|---|
@@ -70,8 +76,12 @@ La table qui pilote **tous** les titres du deck.
 
 ## 4. Règles de rédaction
 
-1. **Une métaphore par slide, dans le titre.** Le corps de la slide est
-   technique et neutre : du code, un diagramme, un tableau.
+1. **La métaphore vit au niveau chapitre.** Les quatre `_part.md` et la
+   couverture portent tout le lexique ; les titres de slides sont
+   descriptifs et techniques, le corps aussi (du code, un diagramme, un
+   tableau). Un clin d'œil qui se lit aussi bien au premier degré passe
+   (« Tips », « Ce que ça coûte, ce que ça rapporte ») ; un titre qu'il faut
+   décoder, non.
 2. **Jamais de jeu de mots au prix de la clarté.** Si le public doit décoder le
    titre pour comprendre le sujet, le titre est raté.
 3. **Pas de vocabulaire cuisine dans le code, les identifiants, les notes.** Les

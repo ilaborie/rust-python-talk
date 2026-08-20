@@ -1,12 +1,12 @@
-# Live-code — « Aux fourneaux »
+# Live-code
 
 Support du live-code de la conf **Rust & Python : le menu parfait ?**
-(slide `2_mise-en-place/2-aux-fourneaux.md`, ~15 min).
+(slide `2_mise-en-place/3-aux-fourneaux.md`, ~15 min).
 
 Le terminal intégré à la slide s'ouvre **dans ce dossier**.
 
 - `solution/` — le projet fini, qui compile et qui tourne. **Filet de sécurité.**
-  C'est aussi la source du code affiché sur la slide « Le plat servi » : ne pas
+  C'est aussi la source du code affiché sur la slide « Le résultat » : ne pas
   l'éditer sans revérifier la slide.
 - `rusty-md/` — le projet créé en live. Ignoré par le VCS, à supprimer avant
   chaque répétition.
