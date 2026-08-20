@@ -1,0 +1,17 @@
+[env]
+TOBOGGAN_HOST = "0.0.0.0"
+
+[tools]
+"cargo:bacon" = "latest"
+
+[tasks.build]
+description = "Build the rust-python.toml file and HTML"
+run = "toboggan-cli --output rust-python.toml ./slides/ && toboggan-cli --output index.html ./slides/"
+
+[tasks.dev]
+description = "Serve and watch the presentation"
+run = "RUST_LOG=info toboggan-server --public-dir ./public/ --watch ./rust-python.toml"
+
+[tasks.run]
+description = "Serve the presentation"
+run = "RUST_LOG=warn toboggan-server --public-dir ./public/ ./rust-python.toml"
