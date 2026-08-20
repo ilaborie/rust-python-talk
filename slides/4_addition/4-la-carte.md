@@ -1,12 +1,12 @@
 +++
 title = "La carte"
-classes = ["no_title", "center"]
+classes = ["no_title", "center", "merci"]
 +++
 
 <style>
-h1 { font-size: 240%; color: #B13F15; margin-bottom: 0.1em; }
-h2 { font-size: 130%; font-style: italic; font-weight: 400; color: #728B83; margin-top: 0; }
-ul { font-size: 85%; text-align: left; display: inline-block; }
+section.merci h1 { font-size: 240%; color: #B13F15; margin-bottom: 0.1em; }
+section.merci h2 { font-size: 130%; font-style: italic; font-weight: 400; color: #728B83; margin-top: 0; }
+section.merci ul { font-size: 78%; text-align: left; display: inline-block; }
 </style>
 
 # Merci ! 🦀 🐍

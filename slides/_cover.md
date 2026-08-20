@@ -5,7 +5,7 @@ classes = ["no_title", "center"]
 +++
 
 <style>
-h1 {
+section.cover h1 {
     font-size: 300%;
     font-weight: 700;
     color: #2D2B25;
@@ -13,16 +13,16 @@ h1 {
     margin-bottom: 0;
 }
 
-h2 {
+section.cover h2 {
     font-size: 150%;
     font-weight: 400;
     font-style: italic;
     color: #728B83;
-    margin: 0.2em 0 0.8em;
+    margin: 0.2em 0 0.6em;
 }
 
-img {
-    max-height: 50vh;
+section.cover img {
+    max-height: 52vh;
     max-width: 100%;
     border-radius: 0.6em;
     box-shadow: 0 0.4em 1.6em rgba(45, 43, 37, 0.35);

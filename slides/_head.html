@@ -1,0 +1,38 @@
+<style>
+/* ------------------------------------------------------------------------
+   1. Indépendance vis-à-vis de la résolution
+   ------------------------------------------------------------------------
+   Le thème Toboggan fixe `html { font-size: 32px }` alors que la scène
+   (`section`) est en unités viewport (80vw × 100%). Résultat : le deck ne
+   tient que sur un écran ≥ 1920×1080 et déborde partout ailleurs.
+
+   On rend la base typographique proportionnelle au viewport, en prenant la
+   contrainte la plus serrée des deux axes. Les coefficients reproduisent
+   exactement 32px en 1920×1080, donc : ce qui tient en Full HD tient partout.
+
+     1080 × 0.0296  = 32px      1920 × 0.01667 = 32px
+
+   Le clamp n'est qu'un garde-fou : 64px correspond exactement au 4K natif.
+   ------------------------------------------------------------------------ */
+html {
+	font-size: clamp(10px, min(2.96vh, 1.667vw), 64px);
+}
+
+/* ------------------------------------------------------------------------
+   2. Échelle typographique du deck
+   ------------------------------------------------------------------------
+   Le contenu des slides vit dans un shadow tree : les sélecteurs descendants
+   ne le traversent pas, mais les custom properties si. Le thème expose
+   `--slide-*-size` exactement pour ça.
+
+   Ce deck est dense en code : on rend un peu de place au corps en réduisant
+   les titres, et on cale les blocs de code sur une taille qui laisse passer
+   ~72 colonnes dans la largeur de scène.
+   ------------------------------------------------------------------------ */
+.toboggan-slide {
+	--slide-h1-size: 230%;
+	--slide-h2-size: 170%;
+	--slide-code-size: 64%;
+	--slide-table-size: 90%;
+}
+</style>
