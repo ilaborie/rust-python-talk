@@ -1,0 +1,17 @@
+# Configuration Toboggan — « Rust & Python : le menu parfait ? »
+#
+# Précédence : flag CLI > variable TOBOGGAN_* > ce fichier > défaut.
+# `toboggan --help` liste le flag équivalent de chaque clé.
+
+# Le deck vit dans ./slides/ (l'archive de l'ancien deck est dans ./slides-old/).
+path = "slides"
+
+[build]
+# Le live-code occupe 15 des 30 minutes : on veut l'estimation du support seul.
+exclude-notes-from-duration = true
+
+[lint]
+# `typos` est anglophone et produit ~40 faux positifs sur un deck en français
+# (mariage, moteur, sur, existant…). On coupe la règle plutôt que de maintenir
+# une liste de mots. Repli ponctuel : `toboggan lint --no-spell`.
+disabled = ["spelling/typo"]

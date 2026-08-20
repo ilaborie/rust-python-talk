@@ -1,0 +1,34 @@
++++
+title = "La carte"
+classes = ["no_title", "center"]
++++
+
+<style>
+h1 { font-size: 240%; color: #B13F15; margin-bottom: 0.1em; }
+h2 { font-size: 130%; font-style: italic; font-weight: 400; color: #728B83; margin-top: 0; }
+ul { font-size: 85%; text-align: left; display: inline-block; }
+</style>
+
+# Merci ! 🦀 🐍
+
+## Des questions ?
+
+- **Outils** — [pyo3.rs](https://pyo3.rs/) · [maturin.rs](https://www.maturin.rs/) ·
+  [écosystème PyO3](https://pyo3.rs/v0.29.2/ecosystem.html) ·
+  [pyo3-async-runtimes](https://github.com/PyO3/pyo3-async-runtimes) ·
+  [rust-numpy](https://github.com/PyO3/rust-numpy) ·
+  [py-spy](https://github.com/benfred/py-spy)
+- **Les talks de David Hewitt**, mainteneur PyO3 —
+  [PyO3 en profondeur](https://www.youtube.com/watch?v=UilujdubqVU) ·
+  [Free-threaded Python](https://www.youtube.com/watch?v=J7phN_M4GLM) ·
+  [5 ans de Rust dans Python](https://www.youtube.com/watch?v=KTQn_PTHNCw) ·
+  [ITW en français](https://www.youtube.com/watch?v=UmL_CA-v3O8)
+- **Le code de cette conf** —
+  [github.com/ilaborie/toboggan](https://github.com/ilaborie/toboggan) (`toboggan-py`)
+
+<!-- notes -->
+
+- Laisser cette slide affichée pendant les questions
+- TODO ORATEUR : ajouter le QR code / le lien du dépôt des slides avant la conf
+- Si on demande « par où commencer » : le guide PyO3, puis `maturin new -b pyo3`
+- Si on demande le free-threading (PEP 703) : PyO3 le supporte, `Py<T>` reste correct, mais toute la synchro devient critique
