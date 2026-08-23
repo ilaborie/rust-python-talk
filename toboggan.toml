@@ -9,6 +9,9 @@ path = "slides"
 [build]
 # Le live-code occupe 15 des 30 minutes : on veut l'estimation du support seul.
 exclude-notes-from-duration = true
+# Les titres portent déjà leur place dans le déroulé ; le « 1.1 » du compteur
+# n'apporte rien à l'écran et alourdit chaque titre du PDF.
+no-counter = true
 
 [lint]
 # `typos` est anglophone et produit ~40 faux positifs sur un deck en français

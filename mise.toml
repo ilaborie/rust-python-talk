@@ -6,7 +6,11 @@ TOBOGGAN_HOST = "0.0.0.0"
 
 [tasks.build]
 description = "Build the rust-python.toml file and HTML"
-run = "toboggan-cli --output rust-python.toml ./slides/ && toboggan-cli --output index.html ./slides/"
+run = "toboggan build -o rust-python.toml && toboggan build -o index.html"
+
+[tasks.pdf]
+description = "Compile talk.pdf (préambule : slides/_preamble.typ)"
+run = "toboggan pdf -o talk.pdf"
 
 [tasks.dev]
 description = "Serve and watch the presentation"

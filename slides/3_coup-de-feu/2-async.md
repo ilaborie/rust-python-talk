@@ -1,9 +1,12 @@
 +++
 title = "Rust async, Python sync"
-classes = ["no_title"]
+classes = ["no_title", "dense-code"]
 +++
 
 <style>
+/* Plusieurs blocs Rust et un avant/après sur la même slide : sans ça, le
+   titre sort par le haut en 1920×1080. Même réglage que « Le résultat ». */
+
 /* Titre collé en haut : la marge négative le sort en partie du `space-evenly`
    de l'article, ce qui rapproche le titre du bord et rend le reste au corps.
    Trois précautions :
@@ -22,41 +25,22 @@ section:not(.center):not(.spread-steps):not(.fourneaux):not(.dense-code) > artic
 
 # Rust async, Python sync
 
-```mermaid:width=78%,rankSpacing=34,alt=next() envoie POST /api/command, le serveur applique et répond avec l'état ; le socket pousse en plus ce que font les autres clients
-flowchart LR
-    PY["Python<br/>next()"]
-    SRV["serveur<br/>applique · diffuse"]
-    ST["l'état appliqué<br/>state ✓"]
-    WS["socket · tokio<br/>tâche de fond"]
-    PY -- "POST /api/command" --> SRV
-    SRV -- "réponse" --> ST
-    SRV -.-> WS
-    WS -. "ce que font les autres" .-> ST
-    style PY fill:#4B7F52,stroke:#36603C,color:#ffffff
-    style SRV fill:#B13F15,stroke:#8a3010,color:#ffffff
-```
-
 ```rust
 #[pyclass]
 pub struct Toboggan {
-    rt: Runtime,                 // le runtime tokio vit dans la classe
-    api: TobogganApi,            // la commande : un aller-retour REST
-    state: Arc<RwLock<TState>>,  // l'état, poussé par le socket
+    rt: Runtime,                 // le runtime tokio
+    api: TobogganApi,
+    state: Arc<RwLock<TState>>,  // l'état
 }
 ```
 
-<!-- pause -->
-
-→ Premier jet : un `send` sur un canal. `next()` rendait la main **avant** que
-l'état ait bougé. **L'abstraction fuit.**
-
-<!-- pause -->
-
-→ Le correctif : `POST /api/command` **renvoie** l'état qu'il a appliqué.
+> [!WARNING]
+> `block_on` dans chaque `#[pymethods]` — **Python n'écrit jamais `await`.**
 
 <!-- notes -->
 
 - Choix : PAS de `pyo3-async-runtimes`. Un runtime tokio dans la struct, `block_on` dans les méthodes
+- Le runtime est construit une fois dans `__new__` et vit aussi longtemps que l'objet Python
 - L'utilisateur Python ne fait jamais `await` — pour un public data/notebook, c'est le bon défaut
 - Le getter : `Ok(State(self.rt.block_on(async { TState::clone(&*state.read().await) })))`
 - Ne JAMAIS rendre un `RwLockReadGuard` à Python : on clone la valeur et on relâche le lock
@@ -64,5 +48,6 @@ l'état ait bougé. **L'abstraction fuit.**
 - Mesuré : `next()` puis `state`, 24 lectures sur 24 renvoyaient l'état d'avant. Pas « parfois », toujours
 - Le pansement : un `sleep(1)` dans `example.py`. Honnête, mais c'est une dette
 - Le vrai correctif : le serveur avait déjà `POST /api/command`, qui répond avec l'état appliqué — zéro appelant
-- Bonus : une commande refusée lève enfin (`PermissionError` pour l'audience) au lieu de ne rien faire
-- Et `py.detach()` autour du `block_on`, sinon on tient le GIL pendant tout l'aller-retour
+- Le socket garde le job que lui seul peut faire : ce que font les AUTRES clients, et les rechargements de deck
+- `cache(notif)` : l'état est écrit AVANT que la méthode rende la main — c'est toute la différence
+- Ce `block_on` a encore un défaut, et c'est la slide suivante

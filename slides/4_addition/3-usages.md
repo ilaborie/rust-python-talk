@@ -20,20 +20,21 @@ section:not(.center):not(.spread-steps):not(.fourneaux):not(.dense-code) > artic
 }
 </style>
 
-# Quand ça vaut le coup
+# Cas d'usages
 
 <!-- pause -->
 
-1. **Le moteur** — garder l'API Python, remplacer le cœur par du Rust
+1. **Optimization** — garder l'API Python, remplacer les modules à optimizer par du Rust
    _[Polars](https://pola.rs/) · [pydantic-core](https://github.com/pydantic/pydantic-core)_
-<!-- pause -->
-
-2. **L'API polyglotte** — un cœur Rust, exposé partout
-   _[OpenDAL](https://github.com/apache/opendal) · [xberg](https://github.com/xberg-io/xberg) : 1 core, 15 bindings_
 
 <!-- pause -->
 
-3. **Proto Python → Rust** — itérer vite, optimiser quand le besoin apparaît
+2. **API polyglotte** — un cœur Rust, exposé partout
+   _[OpenDAL](https://opendal.apache.org/) · [xberg](https://docs.xberg.io/) : 1 core, 15 bindings_
+
+<!-- pause -->
+
+3. **Proto Python → Rust** — itérer vite, faire performant quand on est stable
 
 <!-- notes -->
 

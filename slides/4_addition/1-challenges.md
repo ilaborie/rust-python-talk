@@ -3,27 +3,24 @@ title = "Ce qui coince"
 classes = ["no_title", "spread-steps"]
 +++
 
-# Ce qui coince
+# Les difficultés
 
 <!-- pause -->
 
--  **Les `.pyi` sont écrits à la main** 
--  **Pas de génériques** — `#[pyclass] struct Container<T>` ne compile pas :
-  il faut monomorphiser
--  **Pas de traits → protocoles** — `Iterator` ne devient pas itérable :
+- **Pas de génériques** — `#[pyclass] struct Container<T>`
+- **Pas de lifetime dans les classe** — `#[pyclass] struct Container<'a>`
+- **Pas de traits → protocoles** — `Iterator` ne devient pas itérable :
   il faut écrire `__iter__` / `__next__`
--  **Pas d'héritage en diamant** Python → Rust → Python
--  **Le GIL reste pris** pendant un `block_on` : un aller-retour réseau gèle
-  les autres threads Python
 
-<!-- pause -->
 
-→ Presque tout se contourne. Mais ça se **paie en wrapper**.
+-  **Les `.pyi` pas encore automatique** WIP [Python typing hints](https://pyo3.rs/v0.29.2/python-typing-hints.html), [#5137](https://github.com/PyO3/pyo3/issues/5137)
+-  **Ne pas bloquer le GIL**
 
 <!-- notes -->
 
-- Le point .pyi est le plus coûteux : rien ne détecte la dérive au build
-- Sur toboggan-py : le crate est hors du workspace cargo ET hors CI → dérive invisible
+- Le point .pyi est le plus coûteux : rien ne détecte la dérive au build — sauf un test qu'on écrit soi-même
+- Sur toboggan-py : le crate est hors du workspace cargo → ni `cargo clippy --all-targets` ni `nextest` ne le voient
+- C'était aussi hors CI. Corrigé depuis : un job dédié, plus un test qui compare le .pyi au module construit
 - Pistes : `pyo3-stub-gen`, ou la feature `experimental-inspect` de PyO3 qui génère les stubs
 - Génériques : la solution est d'exposer des types concrets (IntContainer, StrContainer)
 - Le GIL : c'est LE piège du pattern « runtime interne ». `Python::detach` autour du block_on le règle

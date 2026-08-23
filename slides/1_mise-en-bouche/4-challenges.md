@@ -53,12 +53,12 @@ section.data-table tbody {
 
 | | Python | Rust |
 |---|---|---|
-| Mémoire | refcount + GC | ownership, pas de GC |
+| Typage | dynamique, à l'exécution | statique, à la compilation |
 | Objets | héritage, monkey-patching | structs + traits |
 | Collections | `dict` hétérogène | `HashMap<K, V>` homogène |
 | Erreurs | exceptions | `Result<T, E>` |
+| Mémoire | refcount + GC | ownership, pas de GC |
 | Threads | GIL | pas de data race |
-| Typage | dynamique, à l'exécution | statique, à la compilation |
 
 <!-- pause -->
 

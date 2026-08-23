@@ -60,7 +60,6 @@ section:not(.center):not(.spread-steps):not(.fourneaux):not(.dense-code) > artic
 
 <!-- notes -->
 
-- TODO ORATEUR : vérifier la source exacte de la citation Hewitt avant le talk
 - Les 4 mots : fiabilité (le compilo attrape ce que les tests ratent), performance, sûreté mémoire sans GC, concurrence sans data race
 - Question au public : qui utilise au moins un de ces outils ? (souvent : tout le monde, sans le savoir)
 - Le pattern est toujours le même : on garde l'API Python, on remplace le moteur

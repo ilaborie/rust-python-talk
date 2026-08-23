@@ -11,4 +11,4 @@ classes = ["no_title", "center"]
 
 - REX sur deux projets réels : toboggan-py (ces slides !) et un client d'inférence chez wefox
 - Le fil rouge : du Rust **async** exposé à du Python qui, lui, est **synchrone**
-- 4 slides, ~4 min
+- 6 slides, ~6 min

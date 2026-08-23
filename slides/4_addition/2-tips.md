@@ -7,16 +7,14 @@ classes = ["no_title", "spread-steps"]
 
 <!-- pause -->
 
-- **Réduire la surface FFI** — chaque franchissement se paie
+- **Réduire la surface d'interop.**
 - **Batcher** — un appel pour 1 M d'éléments, pas 1 M d'appels
 - **Un seul runtime tokio** — `static RT: OnceLock<Runtime>`
 - **`py.detach(...)`** sur les sections CPU-bound et les I/O bloquantes
 - **Tester des deux côtés** — `pytest` *et* `cargo test`
 - **[`py-spy`](https://github.com/benfred/py-spy)** — le flame graph voit les frames Rust
-- **[`maturin-import-hook`](https://github.com/PyO3/maturin-import-hook)** — recompile à l'`import`,
-  plus de `maturin develop` à la main
-- **Générer les stubs** plutôt que les écrire
-- Faire attention aux mesure de pref (`--release`, premier appel, ...)
+- **[`maturin-import-hook`](https://github.com/PyO3/maturin-import-hook)**
+- Faire attention aux mesure de pref.
 
 <!-- notes -->
 

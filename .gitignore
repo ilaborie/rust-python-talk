@@ -2,3 +2,8 @@ target/
 rust-python.toml
 index.html
 .bacon-locations
+talk.typ
+talk.html
+talk.pdf
+__pycache__/
+.claude/
