@@ -1,21 +1,18 @@
 [env]
 TOBOGGAN_HOST = "0.0.0.0"
 
-[tools]
-"cargo:bacon" = "latest"
-
 [tasks.build]
-description = "Build the rust-python.toml file and HTML"
-run = "toboggan build -o rust-python.toml && toboggan build -o index.html"
+description = "Génère index.html (ce que la CI publie sur GitHub Pages)"
+run = "toboggan build -o index.html"
 
 [tasks.pdf]
 description = "Compile talk.pdf (préambule : slides/_preamble.typ)"
 run = "toboggan pdf -o talk.pdf"
 
 [tasks.dev]
-description = "Serve and watch the presentation"
-run = "RUST_LOG=info toboggan-server --public-dir ./public/ --watch ./rust-python.toml"
+description = "Sert le deck et recharge à chaque modification"
+run = "RUST_LOG=info toboggan watch"
 
 [tasks.run]
-description = "Serve the presentation"
-run = "RUST_LOG=warn toboggan-server --public-dir ./public/ ./rust-python.toml"
+description = "Sert le deck sans watch"
+run = "RUST_LOG=warn toboggan watch --no-watch"

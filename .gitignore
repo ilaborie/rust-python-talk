@@ -1,8 +1,6 @@
 target/
-rust-python.toml
 index.html
 dist/
-.bacon-locations
 talk.typ
 talk.html
 talk.pdf
