@@ -9,12 +9,11 @@ classes = ["no_title", "spread-steps"]
 
 - **Réduire la surface d'interop.**
 - **Batcher** — un appel pour 1 M d'éléments, pas 1 M d'appels
-- **Un seul runtime tokio** — `static RT: OnceLock<Runtime>`
-- **`py.detach(...)`** sur les sections CPU-bound et les I/O bloquantes
+- **[`maturin-import-hook`](https://github.com/PyO3/maturin-import-hook)** ou un watcher comme [bacon](https://dystroy.org/bacon/)
+- **`py.detach(...)`** sur les sections CPU-bound et les I/O bloquantes si on `block_on`
 - **Tester des deux côtés** — `pytest` *et* `cargo test`
 - **[`py-spy`](https://github.com/benfred/py-spy)** — le flame graph voit les frames Rust
-- **[`maturin-import-hook`](https://github.com/PyO3/maturin-import-hook)**
-- Faire attention aux mesure de pref.
+- Faire attention aux mesures de performance : `--release`
 
 <!-- notes -->
 

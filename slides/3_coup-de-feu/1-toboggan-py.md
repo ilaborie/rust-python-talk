@@ -22,7 +22,7 @@ section:not(.center):not(.spread-steps):not(.fourneaux):not(.dense-code) > artic
 
 # Un cas réel : `toboggan-py`
 
-```mermaid:width=64%,rankSpacing=44,alt=Un coeur Rust exposé en CLI · Web · Mobile · Python
+```mermaid:width=64%,rankSpacing=44,alt=Un cœur Rust exposé en CLI · Web · Mobile · Python
 flowchart TD
     CORE["toboggan-core<br/>logique métier · no_std capable"]
     CLIENT["toboggan-client<br/>HTTP + WebSocket · tokio"]

@@ -20,11 +20,11 @@ section:not(.center):not(.spread-steps):not(.fourneaux):not(.dense-code) > artic
 }
 </style>
 
-# Cas d'usages
+# Cas d'usage
 
 <!-- pause -->
 
-1. **Optimization** — garder l'API Python, remplacer les modules à optimizer par du Rust
+1. **Optimisation** — garder l'API Python, remplacer les modules à optimiser par du Rust
    _[Polars](https://pola.rs/) · [pydantic-core](https://github.com/pydantic/pydantic-core)_
 
 <!-- pause -->

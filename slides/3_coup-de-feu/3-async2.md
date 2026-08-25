@@ -26,8 +26,7 @@ section:not(.center):not(.spread-steps):not(.fourneaux):not(.dense-code) > artic
 # Le piège du GIL
 
 ```rust
-// `block_on` garde le GIL pendant tout l'aller-retour réseau :
-// les autres threads Python sont gelés, et Ctrl-C ne fait rien.
+// `block_on` garde le GIL pendant tout l'aller-retour réseau
 let notif = self.rt.block_on(self.api.command(cmd))?;
 ```
 
@@ -39,7 +38,7 @@ let notif = py.detach(|| self.rt.block_on(self.api.command(cmd)))?;
 ```
 
 > [!NOTE]
-> `attach` / `detach` : en 0.29, (avant `with_gil` / `allow_threads`)
+> `attach` / `detach` : en 0.29 (avant `with_gil` / `allow_threads`)
 
 <!-- pause -->
 
@@ -63,7 +62,7 @@ Le guide : [pyo3.rs/v0.29.2/async-await](https://pyo3.rs/v0.29.2/async-await)
 - Le bug réel : `Toboggan(...)` sur un serveur qui ne répond pas gelait TOUT l'interpréteur
 - GIL tenu = même le thread watchdog ne tourne plus : pas de timeout, pas de Ctrl-C, on tue le REPL
 - Invisible en local : un aller-retour à 2 ms ne se distingue pas d'un GIL relâché. Il faut un serveur lent pour le voir
-- Le test qui l'attrape tourne dans un process fils : en in-process il ne échoue pas, il fige la session
+- Le test qui l'attrape tourne dans un process fils : en in-process il n'échoue pas, il fige la session
 - `py.detach(|| ...)` : la closure doit être `Send` — d'où le `handle` cloné plutôt que `&self`
 - `Python::attach` / `py.detach` remplacent `with_gil` / `allow_threads` — vus en partie 2, ici ils servent
 - ATTENTION : la moitié des tutos en ligne sont encore en `with_gil`

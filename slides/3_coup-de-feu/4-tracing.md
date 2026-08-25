@@ -57,7 +57,7 @@ flowchart LR
     FF["frontière PyO3"]
     RS["Rust · opentelemetry-rust<br/>trace_id ? · span_id ?"]
     PY --> FF
-    FF -. "contexte perdu · deux TLS distincts" .-> RS
+    FF -. "contexte perdu" .-> RS
     style PY fill:#4B7F52,stroke:#36603C,color:#ffffff
     style RS fill:#B13F15,stroke:#8a3010,color:#ffffff
 ```

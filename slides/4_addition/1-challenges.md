@@ -8,13 +8,13 @@ classes = ["no_title", "spread-steps"]
 <!-- pause -->
 
 - **Pas de génériques** — `#[pyclass] struct Container<T>`
-- **Pas de lifetime dans les classe** — `#[pyclass] struct Container<'a>`
+- **Pas de lifetime dans les classes** — `#[pyclass] struct Container<'a>`
 - **Pas de traits → protocoles** — `Iterator` ne devient pas itérable :
   il faut écrire `__iter__` / `__next__`
 
 
--  **Les `.pyi` pas encore automatique** WIP [Python typing hints](https://pyo3.rs/v0.29.2/python-typing-hints.html), [#5137](https://github.com/PyO3/pyo3/issues/5137)
--  **Ne pas bloquer le GIL**
+- **Les `.pyi` pas encore automatiques** — WIP [Python typing hints](https://pyo3.rs/v0.29.2/python-typing-hints.html), [#5137](https://github.com/PyO3/pyo3/issues/5137)
+- **Ne pas bloquer le GIL**
 
 <!-- notes -->
 
