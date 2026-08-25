@@ -38,12 +38,12 @@ jobs:
       # Les assets sont référencés relativement à index.html — correct sous
       # /rust-python-talk/ comme à la racine d'un site — donc pas de base-url,
       # et `toboggan build` copie lui-même `public/` à côté de la sortie.
-      - uses: ilaborie/toboggan@v0.1.1
+      - uses: ilaborie/toboggan@v0.2.0
         with:
           folder: ./slides
           outputs: html,pdf,thumbnails
           out-dir: dist
-          version: v0.1.1
+          version: v0.2.0
 
       - uses: actions/upload-pages-artifact@v3
         with:
