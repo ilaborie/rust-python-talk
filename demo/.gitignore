@@ -4,3 +4,4 @@ rusty-md/
 target/
 .venv/
 *.so
+md/

@@ -1,0 +1,61 @@
+# Publie le support du talk sur https://ilaborie.github.io/rust-python-talk/
+#
+# Le deck n'est pas versionné sous sa forme rendue : `index.html` est un
+# artefact gitignoré. C'est donc la CI qui l'exporte à chaque push sur `main`,
+# à partir des sources Markdown de `slides/`.
+#
+# Nécessite « Build and deployment → Source: GitHub Actions » dans les réglages
+# Pages du dépôt (déjà positionné).
+name: Publier le deck
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Un seul déploiement à la fois, et le commit le plus récent gagne : un run plus
+# ancien qui finirait second remettrait un deck périmé en ligne.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Construire le deck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      # L'action installe le binaire depuis les releases de toboggan (le nom
+      # `toboggan` sur crates.io appartient à un projet sans rapport), ajoute
+      # typst pour le PDF et les vignettes, puis exporte.
+      #
+      # Les assets sont référencés relativement à index.html — correct sous
+      # /rust-python-talk/ comme à la racine d'un site — donc pas de base-url,
+      # et `toboggan build` copie lui-même `public/` à côté de la sortie.
+      - uses: ilaborie/toboggan@v0.1.1
+        with:
+          folder: ./slides
+          outputs: html,pdf,thumbnails
+          out-dir: dist
+          version: v0.1.1
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    name: Déployer sur Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4
