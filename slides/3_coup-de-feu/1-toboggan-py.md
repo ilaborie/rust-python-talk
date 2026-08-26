@@ -39,6 +39,12 @@ flowchart TD
 
 → **Le même cœur métier**, exposé en CLI, Web, Mobile, Python.
 
+<!-- pause -->
+
+> [!IMPORTANT]
+> API Rust _async_<br>
+> API Python _sync_
+
 <!-- notes -->
 
 - Démo possible : `from toboggan_py import Toboggan; tbg.next()` fait avancer CETTE slide
