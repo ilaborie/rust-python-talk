@@ -30,7 +30,8 @@ section.merci ul { font-size: 78%; text-align: left; display: inline-block; }
 
 
 - **Le code de cette conf** —
-  [github.com/ilaborie/rust-python](https://github.com/ilaborie/rust-python)
+  [github.com/ilaborie/rust-python-talk](https://github.com/ilaborie/rust-python-talk)
+  [slides](https://ilaborie.github.io/rust-python-talk)
 
 <!-- notes -->
 
