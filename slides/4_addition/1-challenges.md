@@ -23,6 +23,6 @@ classes = ["no_title", "spread-steps"]
 - C'était aussi hors CI. Corrigé depuis : un job dédié, plus un test qui compare le .pyi au module construit
 - Pistes : `pyo3-stub-gen`, ou la feature `experimental-inspect` de PyO3 qui génère les stubs
 - Génériques : la solution est d'exposer des types concrets (IntContainer, StrContainer)
-- Le GIL : c'est LE piège du pattern « runtime interne ». `Python::detach` autour du block_on le règle
+- Le GIL : c'est LE piège du pattern « runtime interne ». `py.detach(...)` autour du block_on le règle
 - C'est exactement ce que fait toboggan-py depuis peu : avant, un `clients()` gelait tous les threads Python
 - Ne pas culpabiliser : c'est un choix de dette assumé quand la lib est mono-thread côté Python

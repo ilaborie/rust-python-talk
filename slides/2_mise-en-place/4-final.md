@@ -4,7 +4,7 @@ classes = ["no_title", "dense-code"]
 +++
 
 <style>
-/* 16 lignes de Rust + un REPL sur la même slide. Deux slides de « Le coup
+/* 16 lignes de Rust sur la slide. Deux slides de « Le coup
    de feu » utilisent le même réglage, pour la même raison.
    Le style vit dans le shadow tree de la slide, il ne fuit pas ailleurs. */
 
@@ -33,7 +33,7 @@ section:not(.center):not(.spread-steps):not(.fourneaux):not(.dense-code) > artic
 - C'est le résultat du live-code, resserré pour tenir sur la slide : la version qui compile est `demo/solution/src/lib.rs`, et ce que la slide embarque est `slides/2_mise-en-place/result.rs`, une copie tenue à la main — les `use`, les options `gfm` et la coloration syntaxique passent à la trappe (les deux `// ...`). À resynchroniser si le live-code change
 - 16 lignes. Aucune ligne de FFI, aucun `unsafe`, aucun header C
 - `&str` ← `str`, `String` → `str`, `bool` ↔ `bool` : les conversions sont générées
-- Le cas nominal, on vient de le voir en live — ici on montre ce qu'on n'a PAS écrit : la validation
-- `signature = (input, *, ...)` : le `*` produit un keyword-only argument Python
+- Le cas nominal, on vient de le voir en live ; rappeler aussi `md.to_html(42)` et la `TypeError`, puis `help(md.to_html)`
+- `signature = (md:"str", gfm = false)` : le paramètre s'appelle `md` ; `gfm` est optionnel et accepte les appels positionnels ou nommés (`md.to_html("texte", True)` ou `md.to_html("texte", gfm=True)`)
 - La `TypeError` est offerte : le typage Rust devient une erreur Python idiomatique, avec le nom du paramètre
 - Le `///` Rust devient la docstring — `help()` fonctionne

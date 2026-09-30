@@ -56,7 +56,7 @@ section:not(.center):not(.spread-steps):not(.fourneaux):not(.dense-code) > artic
 [tokenizers](https://github.com/huggingface/tokenizers) ·
 [orjson](https://github.com/ijl/orjson)
 
-→ La stack Python qui va vite est **déjà écrite en Rust**.
+→ Plusieurs outils Python misent **déjà sur un cœur Rust**.
 
 <!-- notes -->
 
@@ -64,5 +64,6 @@ section:not(.center):not(.spread-steps):not(.fourneaux):not(.dense-code) > artic
 - Question au public : qui utilise au moins un de ces outils ? (souvent : tout le monde, sans le savoir)
 - Le pattern est toujours le même : on garde l'API Python, on remplace le moteur
 - Ruff et uv : c'est de l'outillage, l'utilisateur ne voit même pas que c'est natif
-- pydantic v2 : la v1 était en Python pur, la v2 a un cœur Rust — même API
-- Donc : ce n'est pas une expérimentation, c'est déjà la norme
+- pydantic v2 a un cœur Rust ; le passage depuis la v1 demande aussi des adaptations d'API
+- Ce modèle est déjà utilisé en production ; C, C++, Fortran et CUDA restent très présents dans l'écosystème Python
+- Promesse du talk : créer une extension Rust et reconnaître les principaux pièges en production

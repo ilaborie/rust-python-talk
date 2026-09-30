@@ -28,7 +28,7 @@ section:not(.center):not(.spread-steps):not(.fourneaux):not(.dense-code) > artic
 crate-type = ["cdylib"] # C dynamic library (.so, .dll)
 
 [dependencies]
-pyo3 = "0.29"
+pyo3 = { version = "0.29", features = ["abi3-py39"] }
 ```
 
 <!-- pause -->
@@ -43,5 +43,6 @@ build-backend = "maturin"
 <!-- notes -->
 
 - `cdylib` : on produit une bibliothèque dynamique, pas un binaire
+- `abi3-py39` : choix explicite de l'ABI stable, à partir de CPython 3.9 avec GIL ; aligné sur `requires-python = ">=3.9"` dans la démo
 - pyproject.toml : 3 lignes, Maturin gère le reste
 - Ces deux fichiers, c'est tout ce que `maturin new -b pyo3` génère en plus du `src/lib.rs`

@@ -9,5 +9,6 @@ classes = ["no_title", "center"]
 
 <!-- notes -->
 
-- Section courte, 4 slides, ~3 min
-- Le constat → ce qu'apporte vraiment l'interop → pourquoi on le fait → ce qui ne colle pas entre les deux langages
+- Introduction : 6 min au total, couverture, whoami et transitions compris
+- Budget : couverture + whoami + ce séparateur 1 min 30 ; intérêt 1 min ; ABI 45 s ; interop 1 min ; modèles et transition 1 min 45
+- Pourquoi on le fait → comment les langages se parlent → ce qu'apportent les outils → ce qu'ils doivent réconcilier

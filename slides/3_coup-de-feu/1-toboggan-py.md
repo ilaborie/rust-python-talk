@@ -41,9 +41,7 @@ flowchart TD
 
 <!-- pause -->
 
-> [!IMPORTANT]
-> API Rust _async_<br>
-> API Python _sync_
+**Contrat à adapter** : API Rust _async_ → API Python _sync_.
 
 <!-- notes -->
 

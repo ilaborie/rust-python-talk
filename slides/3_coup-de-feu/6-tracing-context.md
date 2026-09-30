@@ -60,6 +60,7 @@ Python  handle-request  trace_id 6a79…5545  span_id      86c1602bdc1c1aca
 
 <!-- notes -->
 
+- 2 min. Vérifier trace_id identique ET relation parent-enfant ; deux IDs identiques seuls ne prouvent pas le rattachement du span
 - L'idée : plutôt que de demander à l'appelant Python de passer un carrier, c'est Rust qui va le chercher
 - `propagate.inject(dict)` est l'API standard d'OTel Python — celle qui sert à poser un en-tête HTTP
 - `HashMap<String, String>` implémente déjà `Extractor` côté opentelemetry-rust : rien à écrire

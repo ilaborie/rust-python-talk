@@ -25,6 +25,8 @@ section:not(.center):not(.spread-steps):not(.fourneaux):not(.dense-code) > artic
 
 # Le piège du GIL
 
+**Serveur muet → interpréteur figé**, même le watchdog Python ne tourne plus.
+
 ```rust
 // `block_on` garde le GIL pendant tout l'aller-retour réseau
 let notif = self.rt.block_on(self.api.command(cmd))?;
@@ -38,24 +40,11 @@ let notif = py.detach(|| self.rt.block_on(self.api.command(cmd)))?;
 ```
 
 > [!NOTE]
-> `attach` / `detach` : en 0.29 (avant `with_gil` / `allow_threads`)
+> `attach` / `detach` : depuis **0.26** (avant `with_gil` / `allow_threads`)
 
 <!-- pause -->
 
-```rust
-// L'autre voie : pyo3-async-runtimes. Côté Python : await fetch(url)
-#[pyfunction]
-fn fetch(py: Python<'_>, url: String) -> PyResult<Bound<'_, PyAny>> {
-    pyo3_async_runtimes::tokio::future_into_py(py, async move {
-        let rsp = reqwest::get(&url).await.map_err(to_py)?;
-        rsp.text().await.map_err(to_py)
-    })
-}
-```
-
-<!-- pause -->
-
-Le guide : [pyo3.rs/v0.29.2/async-await](https://pyo3.rs/v0.29.2/async-await)
+→ Les **autres threads Python** peuvent avancer. L'appelant attend toujours.
 
 <!-- notes -->
 
@@ -63,13 +52,8 @@ Le guide : [pyo3.rs/v0.29.2/async-await](https://pyo3.rs/v0.29.2/async-await)
 - GIL tenu = même le thread watchdog ne tourne plus : pas de timeout, pas de Ctrl-C, on tue le REPL
 - Invisible en local : un aller-retour à 2 ms ne se distingue pas d'un GIL relâché. Il faut un serveur lent pour le voir
 - Le test qui l'attrape tourne dans un process fils : en in-process il n'échoue pas, il fige la session
-- `py.detach(|| ...)` : la closure doit être `Send` — d'où le `handle` cloné plutôt que `&self`
+- `py.detach(|| ...)` : ne capturer que des données utilisables sans attachement à Python, aucun `Bound<PyAny>`
 - `Python::attach` / `py.detach` remplacent `with_gil` / `allow_threads` — vus en partie 2, ici ils servent
 - ATTENTION : la moitié des tutos en ligne sont encore en `with_gil`
-- REX wefox : client d'API pour stocker les résultats d'inférence et les feedbacks
-- Une seule implémentation Rust, consommée par les équipes Rust ET les équipes Python
-- Côté service Python (FastAPI, asyncio) → pattern 2 obligatoire, sinon on bloque l'event loop
-- Côté notebook ou batch → pattern 1, plus simple, moins de surface d'API
-- `to_py` = un petit helper maison `fn(impl Display) -> PyErr` ; il n'y a pas de `From<reqwest::Error>` gratuit
-- `pyo3-async-runtimes` suit les versions de PyO3 : 0.29 pour 0.29
-- TODO ORATEUR : ajouter ici 1 chiffre concret (volumétrie ou latence) pour ancrer le REX
+- `detach` ne transforme pas l'appel en coroutine : sur le thread de l'event loop, l'appel synchrone bloque encore la boucle
+- 1 min 30. Transition : si le consommateur attend une API asyncio, il faut aussi adapter le contrat d'appel

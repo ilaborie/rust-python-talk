@@ -1,5 +1,5 @@
 +++
-title = "Propager la trace"
+title = "Deux traces séparées"
 classes = ["no_title", "data-table"]
 +++
 
@@ -49,13 +49,13 @@ section.data-table tbody {
 }
 </style>
 
-# Propager la trace
+# Deux traces séparées
 
 ```mermaid:width=88%,alt=Le contexte de trace ne traverse pas la frontière PyO3
 flowchart LR
     PY["Python · otel-python<br/>trace_id ABC · span_id 001"]
     FF["frontière PyO3"]
-    RS["Rust · opentelemetry-rust<br/>trace_id ? · span_id ?"]
+    RS["Rust · opentelemetry-rust<br/>trace_id DEF · span_id 002"]
     PY --> FF
     FF -. "contexte perdu" .-> RS
     style PY fill:#4B7F52,stroke:#36603C,color:#ffffff
@@ -64,18 +64,13 @@ flowchart LR
 
 <!-- pause -->
 
-Deux ponts à construire, un par sens :
-
-| Ce qui ne traverse pas | Sens | Le pont |
-| ---------------------- | ---- | ------- |
-| Les logs `tracing`     | Rust → Python | `pyo3-log` |
-| Le contexte de trace   | Python → Rust | W3C TraceContext |
+**Une requête, deux traces** : impossible de suivre l'appel de bout en bout.
 
 <!-- notes -->
 
-- Les deux libs OTel ont leur propre Thread-Local Storage : elles ne se voient pas
+- Les deux SDK OTel gèrent leur propre contexte : Python utilise notamment des contextvars, Rust a son propre contexte de tracing ; aucun pont n'est posé automatiquement par PyO3
 - Symptôme en prod : deux traces orphelines au lieu d'une, impossible de corréler
 - Même problème pour les logs : `tracing` côté Rust n'atterrit dans le `logging` Python qu'avec un pont explicite
 - Les deux ponts sont indépendants : on peut avoir les logs sans les traces, et l'inverse
-- Rien de tout ça n'est automatique — c'est de la plomberie à écrire, les 2 slides suivantes la montrent
+- 1 min. Montrer d'abord le symptôme, puis l'objectif sur la slide suivante, avant le code des ponts
 - La démo qui tourne : `demo/otel/`, les deux SDK sur la console, on compare les trace_id à l'œil

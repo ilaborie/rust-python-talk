@@ -61,7 +61,8 @@ section.data-table tbody {
 <!-- pause -->
 
 Ce que [PyO3](http://pyo3.rs) écrit à votre place : **conversions de types**, **exceptions**,
-**signatures & docstrings**, **build & wheels**.
+**signatures & docstrings**.<br>
+[Maturin](https://www.maturin.rs/) s'occupe du **build & des wheels**.
 
 <!-- pause -->
 
@@ -74,4 +75,4 @@ Ce que [PyO3](http://pyo3.rs) écrit à votre place : **conversions de types**, 
 - Le point à faire passer : la FFI brute *marche* depuis toujours, le problème c'est la DX
 - Python → Rust, c'est le cas courant : on remplace le moteur, on garde l'API Python
 - Rust → Python : est-ce que ça a un intérêt ? On y répond en fin de chapitre 2 (scripting, plugins, écosystème ML)
-- Transition : on passe à la pratique
+- Transition : avant de cuisiner, regardons les modèles que ces bindings doivent réconcilier

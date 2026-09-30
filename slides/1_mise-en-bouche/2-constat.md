@@ -23,7 +23,7 @@ section:not(.center):not(.spread-steps):not(.fourneaux):not(.dense-code) > artic
 # Le constat
 
 - 🐍 Python sait appeler du **C** — `ctypes`, `cffi`, C-API
-- 🦀 Rust sait produire du **C** — trois annotations suffisent
+- 🦀 Rust sait exposer une **ABI C** — sans écrire de C
 
 <!-- pause -->
 
@@ -57,6 +57,7 @@ flowchart LR
   Rust ne change pas le modèle, il change le confort d'écriture de ce cœur
 - L'ABI C est le plus petit dénominateur commun de l'industrie depuis 50 ans
 - ABI ≠ API : c'est la convention *binaire*, au niveau des registres — sur System V AMD64, 6 args entiers dans rdi/rsi/rdx/rcx/r8/r9, les flottants dans xmm0..7, le reste sur la pile, retour dans rax. Windows x64 est différent (rcx, rdx, r8, r9 + shadow space)
-- Les 3 frictions quand on quitte C : name mangling (`extern "C"`), layout des structs (`repr(C)`), chaînes (`\0` final vs `(ptr, len)`)
+- Rust reste du Rust : `extern "C"` choisit la convention d'appel, `no_mangle` conserve le nom exporté, `repr(C)` fixe le layout
+- Les frictions quand on quitte C : noms des symboles, layout des structs, chaînes (`\0` final vs `(ptr, len)`)
 - Ces 3 frictions, c'est exactement ce que PyO3 va nous éviter d'écrire à la main
 - Ne pas s'attarder : 45 s, c'est du contexte, pas le sujet

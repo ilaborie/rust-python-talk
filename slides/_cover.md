@@ -54,6 +54,7 @@ section.cover img {
 
 - Se présenter, 20 s max
 - L'illustration : Python appelle, Rust exécute, et le passage entre les deux a un coût
-- Format : ~30 min, dont **15 min de live-code** — donc peu de slides, on avance
+- Format : **45 min**, dont **15 min de live-code** (setup et récapitulatif compris) et **5 min de questions**
+- Promesse : créer une fonction Python avec un moteur Rust et reconnaître les pièges à la frontière
 - Plan : pourquoi c'est possible → on le fait en vrai → ce que ça donne en prod → l'addition
-- Questions à la fin
+- Repères : live-code à 6 min, production à 21 min, addition à 34 min, questions à 40 min

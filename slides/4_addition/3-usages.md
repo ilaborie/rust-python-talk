@@ -42,5 +42,4 @@ section:not(.center):not(.spread-steps):not(.fourneaux):not(.dense-code) > artic
 - Cas 2 : le plus ambitieux — demande une archi en couches dès le début (cf. toboggan)
 - xberg : extraction documentaire, un core Rust, 15 bindings générés, pas maintenus à la main
 - Cas 3 : stratégie de migration, pas d'architecture — assumer la réécriture
-- Cas 4 : provoc de fin. Réponse honnête : pas encore, à cause de numpy/torch/sklearn
 - Il n'y a pas de bonne réponse universelle : ça dépend de qui consomme la lib

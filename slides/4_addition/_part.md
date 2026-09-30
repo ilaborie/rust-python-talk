@@ -9,5 +9,5 @@ classes = ["no_title", "center"]
 
 <!-- notes -->
 
-- 4 slides pour finir : les pièges, les astuces, les cas d'usage, les liens
-- ~4 min, puis questions
+- 6 min, de la minute 34 à la minute 40 : difficultés, astuces, cas d'usage, trois règles à retenir
+- Garder ensuite 5 min pour les questions, avec les références affichées

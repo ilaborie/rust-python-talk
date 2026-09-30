@@ -28,7 +28,7 @@ Un binaire **Rust** qui embarque un interpréteur **Python**.
 fn main() -> PyResult<()> {
     Python::attach(|py| {
         let math = py.import("math")?;
-        let pi: f64 = math.getattr("pi")?.extract()?;
+        let pi = math.getattr("pi")?.extract::<f64>()?;
         println!("π = {pi}");
 
         py.run(c"print('Bonjour depuis Python')", None, None)

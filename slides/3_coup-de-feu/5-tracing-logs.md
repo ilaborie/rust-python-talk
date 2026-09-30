@@ -54,10 +54,11 @@ INFO app         [trace=6a79…5545] appel du moteur Rust
 INFO rusty_otel  [trace=6a79…5545] rendu de 53 octets de markdown
 ```
 
-→ Logger nommé d'après le **`target` Rust**, `trace_id` du span **Python**.
+→ Sur le thread appelant : **`target` Rust**, `trace_id` du span **Python**.
 
 <!-- notes -->
 
+- 2 min. Montrer la sortie attendue avant de commenter le branchement ; la démo complète est déjà préparée dans `demo/otel/`
 - `pyo3-log` implémente `log::Log` et route chaque record vers `logging.getLogger(target)`
 - `log-always` est indispensable : sans elle, `tracing` n'émet vers `log` que s'il n'y a AUCUN subscriber — or on en installe un pour OTel
 - `#[pymodule_init]` est le hook du module déclaratif : il tourne à l'`import`, donc l'appelant Python n'a rien à initialiser

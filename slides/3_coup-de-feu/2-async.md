@@ -34,7 +34,7 @@ pub struct Toboggan {
 }
 ```
 
-> [!WARNING]
+> [!NOTE]
 > `block_on` dans chaque `#[pymethods]` — **Python n'écrit jamais `await`.**
 
 <!-- notes -->
@@ -44,10 +44,4 @@ pub struct Toboggan {
 - L'utilisateur Python ne fait jamais `await` — pour un public data/notebook, c'est le bon défaut
 - Le getter : `Ok(State(self.rt.block_on(async { TState::clone(&*state.read().await) })))`
 - Ne JAMAIS rendre un `RwLockReadGuard` à Python : on clone la valeur et on relâche le lock
-- LA fuite : `next()` = `tx.send(cmd)`, non bloquant. L'état n'arrive qu'un aller-retour socket plus tard
-- Mesuré : `next()` puis `state`, 24 lectures sur 24 renvoyaient l'état d'avant. Pas « parfois », toujours
-- Le pansement : un `sleep(1)` dans `example.py`. Honnête, mais c'est une dette
-- Le vrai correctif : le serveur avait déjà `POST /api/command`, qui répond avec l'état appliqué — zéro appelant
-- Le socket garde le job que lui seul peut faire : ce que font les AUTRES clients, et les rechargements de deck
-- `cache(notif)` : l'état est écrit AVANT que la méthode rende la main — c'est toute la différence
-- Ce `block_on` a encore un défaut, et c'est la slide suivante
+- Ce choix promet une API simple, mais il faut définir ce que signifie « l'appel est terminé » : c'est la slide suivante

@@ -27,7 +27,7 @@ flowchart LR
     SRC["src/lib.rs<br/>Cargo.toml · pyproject.toml"]
     MAT["maturin"]
     VENV["le venv<br/>import direct, boucle de dev"]
-    WHL["une wheel abi3<br/>Python 3.8+, pas de Rust chez le client"]
+    WHL["wheel abi3 par plateforme / architecture<br/>CPython 3.9+ avec GIL"]
     SRC --> MAT
     MAT --> DEV(["develop"]) --> VENV
     MAT --> BLD(["build --release"]) --> WHL
@@ -48,5 +48,7 @@ $ maturin build --release  # produit une wheel
 - `maturin develop` = la boucle de dev ; c'est la commande qu'on va marteler pendant le live-code
 - Elle compile ET installe dans le venv actif : pas de `pip install` à faire derrière
 - `maturin build --release` produit la wheel : c'est elle qu'on publie, l'utilisateur n'a pas besoin de Rust
-- Une seule wheel grâce à `abi3-py38`, sinon une par version de Python
+- `abi3-py39` est une option activée dans notre Cargo.toml, pas le comportement automatique de Maturin
+- Pour CPython avec GIL : une wheel par plateforme / architecture peut couvrir les versions compatibles à partir de 3.9 ; sans `abi3`, les wheels dépendent aussi de la version de Python
+- Les builds CPython sans GIL ont besoin de leurs propres wheels compatibles ; la promesse affichée ne les couvre pas
 - Le CI type, c'est `maturin build` sur chaque plateforme + `maturin publish`
