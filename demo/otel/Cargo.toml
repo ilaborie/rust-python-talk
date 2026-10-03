@@ -1,0 +1,28 @@
+[package]
+name = "rusty_otel"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+name = "rusty_otel"
+crate-type = ["cdylib"]
+
+[dependencies]
+comrak = { version = "0.56", default-features = false }
+pyo3 = { version = "0.30", features = ["abi3-py39"] }
+
+pyo3-log = "0.13"
+
+tracing = { version = "0.1", features = ["log-always"] }
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+tracing-opentelemetry = "0.34"
+opentelemetry = "0.33"
+opentelemetry_sdk = "0.33"
+opentelemetry-stdout = "0.33"
+
+# pyo3-log 0.13.4 borne pyo3 à <0.30 ; copie locale avec la borne relevée
+# à <0.31 (aucun autre changement, ses tests passent en 0.30.1).
+# À retirer dès qu'une version de pyo3-log accepte pyo3 0.30.
+[patch.crates-io]
+pyo3-log = { path = "vendor/pyo3-log" }

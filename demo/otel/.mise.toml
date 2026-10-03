@@ -1,0 +1,8 @@
+# Équivalent des options de `opentelemetry-instrument`, lues par `initialize()` dans app.py
+[env]
+OTEL_SERVICE_NAME = "rusty-otel-demo"
+OTEL_TRACES_EXPORTER = "console"
+OTEL_METRICS_EXPORTER = "none"
+OTEL_LOGS_EXPORTER = "none"
+# Injecte `otelTraceID` dans les records `logging`
+OTEL_PYTHON_LOG_CORRELATION = "true"

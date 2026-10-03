@@ -1,0 +1,14 @@
+<h1>Demo pyo3</h1>
+<p>Exemple de code</p>
+<pre style="background-color:#eff1f5;"><code class="language-rust"><span style="color:#4f5b66;">#[</span><span style="color:#bf616a;">pyo3</span><span style="color:#4f5b66;">::</span><span style="color:#bf616a;">pymodule</span><span style="color:#4f5b66;">]
+</span><span style="color:#b48ead;">mod </span><span style="color:#4f5b66;">pyo3_example {
+</span><span style="color:#4f5b66;">    </span><span style="color:#b48ead;">use </span><span style="color:#4f5b66;">pyo3::prelude::*;
+</span><span style="color:#4f5b66;">
+</span><span style="color:#4f5b66;">    </span><span style="color:#a7adba;">/// Formats the sum of two numbers as string.
+</span><span style="color:#4f5b66;">    #[</span><span style="color:#bf616a;">pyfunction</span><span style="color:#4f5b66;">]
+</span><span style="color:#4f5b66;">    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">sum_as_string</span><span style="color:#4f5b66;">(</span><span style="color:#bf616a;">a</span><span style="color:#4f5b66;">: </span><span style="color:#b48ead;">usize</span><span style="color:#4f5b66;">, </span><span style="color:#bf616a;">b</span><span style="color:#4f5b66;">: </span><span style="color:#b48ead;">usize</span><span style="color:#4f5b66;">) -&gt; PyResult&lt;String&gt; {
+</span><span style="color:#4f5b66;">        Ok((a + b).</span><span style="color:#96b5b4;">to_string</span><span style="color:#4f5b66;">())
+</span><span style="color:#4f5b66;">    }
+</span><span style="color:#4f5b66;">}
+</span></code></pre>
+<p>See <a href="https://pyo3.rs">https://pyo3.rs</a></p>
