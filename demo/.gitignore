@@ -1,0 +1,7 @@
+# Projet créé en live sur scène
+rusty-md/
+# Artefacts de build
+target/
+.venv/
+*.so
+md/

@@ -1,0 +1,8 @@
+target/
+index.html
+dist/
+talk.typ
+talk.html
+talk.pdf
+__pycache__/
+.claude/

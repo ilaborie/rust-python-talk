@@ -1,0 +1,584 @@
+Mise en bouche
+
+Pourquoi appeler du Rust depuis
+Python ?
+
+$ whoami
+$ whoami
+
+😍 Rust 🤔 Python
+
+Igor Laborie Founding backend engineer
+
+2 / 26
+
+Le constat
+
+🐍 Python peut appeler du C avec
+• 🦀 Rust peut produire du C
+•
+
+1 #[repr(C)]
+
+,
+
+ctypes cffi
+
+, C-API
+
+// Représentation mémoire C
+
+Rust
+
+2 pub struct Point { x: f64, y: f64 }
+3
+4 #[unsafe(no_mangle)]
+
+// Le nom est préservé `norm`, sinon `_ZN4norm…`
+
+5 pub extern "C" fn norm(p: *const Point) -> f64 { /* … */ }
+
+Python
+PyObject *
+
+call · return
+
+C ABI
+
+Rust
+native symbol
+
+fn(..) -> ..
+
+Techniquement, ça marche C’est quoi le problème ?
+
+3 / 26
+
+Interopérabilité
+Approche
+
+Pour
+Contre
+ctypes
+pas de compilation lent, aucune sécurité
+cffi
+mode ABI ou API
+une dépendance de plus
+C-API CPython perf. maximale
+à faire manuellement
+PyO3
+Rust + perf C-API compiler du Rust
+
+PyO3: conversions de types, exceptions, docstrings, signature Maturin: build & wheels
+Bidirectionel : Python → Rust, et Rust → Python
+
+4 / 26
+
+Quel intérêt ?
+Rust offers power and precision to go beyond Python’s limits.
+• David Hewitt, mainteneur de PyO3
+Fiabilité, performance , sûreté mémoire, concurrence
+Polars, DataFusion, pydantic-core, tokenizers, orjson, ..
+La stack Python qui va vite est déjà écrite en Rust
+
+5 / 26
+
+Ce que PyO3 doit réconcilier
+Python
+Rust
+Typage
+dynamique, à l’exécution
+statique, à la compilation
+Objets
+héritage, monkey-patching structs + traits
+Collections dict hétérogène
+HashMap<K, V> K et V fixer à la compilation
+Result<T, E>
+Erreurs
+exceptions
+Mémoire
+refcount + GC
+Ownership, pas de GC
+Threads
+GIL
+protection enver les data race avec Send et Sync
+
+Deux modèles très différents PyO3 fait la traduction
+
+6 / 26
+
+La mise en place
+
+PyO3 + Maturin, et on écrit du code
+
+Deux fichiers, et c’est tout
+1 # Cargo.toml
+
+toml
+
+2 [lib]
+3 crate-type = ["cdylib"] # C dynamic library (.so, .dll)
+4
+5 [dependencies]
+6 pyo3 = "0.29"
+1 # pyproject.toml
+
+toml
+
+2 [build-system]
+3 requires = ["maturin>=1.9,<2.0"]
+4 build-backend = "maturin"
+
+8 / 26
+
+De la source à la wheel
+develop
+
+le venv
+import direct, boucle de
+dev
+
+src/lib.rs
+Cargo.toml ·
+
+maturin
+
+pyproject.toml
+build --release
+
+une wheel abi3
+Python 3.8+, pas de Rust
+chez le client
+
+1 $ maturin develop
+
+# compile + installe dans le venv
+
+2 $ maturin build --release
+
+# produit une wheel
+
+Shell
+
+9 / 26
+
+Le résultat
+1
+
+/// Markdown module
+
+2
+
+#[pyo3::pymodule]
+
+3
+
+mod md {
+
+4
+
+use pyo3::prelude::*;
+
+5
+
+// ...
+
+Rust
+
+6
+7
+
+/// Render markdown content into HTML
+
+8
+
+#[pyfunction(signature = (md:"str", gfm = false))]
+
+9
+
+pub fn to_html(md: &str, gfm: bool) -> PyResult<String> {
+
+10
+
+let mut options = Options::default();
+
+11
+
+let mut plugins = Plugins::default();
+
+12
+
+// ...
+
+13
+
+let result = comrak::markdown_to_html_with_plugins(md, &options, &plugins);
+
+14
+
+Ok(result)
+
+15
+
+}
+
+16 }
+
+10 / 26
+
+Dans l’autre sens
+Un binaire Rust qui embarque un interpréteur Python.
+1 fn main() -> PyResult<()> {
+2
+
+Rust
+
+Python::attach(|py| {
+
+3
+
+let math = py.import("math")?;
+
+4
+
+let pi: f64 = math.getattr("pi")?.extract()?;
+
+5
+
+println!("π = {pi}");
+
+6
+7
+8
+
+py.run(c"print('Bonjour depuis Python')", None, None)
+})
+
+9 }
+1 pyo3 = { version = "0.29", features = ["auto-initialize"] }
+
+toml
+
+11 / 26
+
+Et si on réécrivait Python ?
+Monty : un interpréteur Python écrit en Rust, pour exécuter du code non fiable
+• PyO3 embarque CPython : tout Python, tout l’écosystème
+• Monty le remplace : un sous-ensemble de Python, isolé de l’hôte
+En Python avec pydantic-monty… écrit avec PyO3
+
+12 / 26
+
+Le coup de feu
+
+Deux projets, en production
+
+Un cas réel : toboggan-py
+toboggan-core
+logique métier · no_std
+capable
+
+toboggan-client
+HTTP + WebSocket ·
+tokio
+
+CLI
+
+Web
+
+Mobile
+
+toboggan-py
+PyO3 · cdylib abi3-py38
+
+Un même client, exposé en CLI, Web, Mobile et Python
+
+14 / 26
+
+Important
+L’API Rust est async L’API Python est sync (par choix)
+
+15 / 26
+
+Rust async, Python sync
+1 #[pyclass]
+
+Rust
+
+2 pub struct Toboggan {
+3
+
+rt: Runtime,
+
+4
+
+api: TobogganApi,
+
+5
+
+state: Arc<RwLock<TState>>,
+
+// le runtime tokio
+// l'état
+
+6 }
+
+Warning
+En appelant block_on dans chaque #[pymethods], pas besoin de await en Python
+
+16 / 26
+
+Le piège du GIL
+1 // `block_on` verrouille le GIL pendant les I/O
+
+Rust
+
+2 let notif = self.rt.block_on(self.api.command(cmd))?;
+1 // `detach` relache le lock pendant les I/O
+
+Rust
+
+2 let notif = py.detach(|| self.rt.block_on(self.api.command(cmd)))?;
+1 // L'autre choix avec pyo3-async-runtimes
+
+Rust
+
+2 // En Python: await fetch(url)
+3 #[pyfunction]
+4 fn fetch(py: Python<'_>, url: String) -> PyResult<Bound<'_, PyAny>> {
+5
+
+pyo3_async_runtimes::tokio::future_into_py(py, async move {
+
+6
+
+let rsp = reqwest::get(&url).await.map_err(to_py)?;
+
+7
+
+rsp.text().await.map_err(to_py)
+
+8
+
+})
+
+9 }
+
+pyo3.rs/v0.29.3/async-await
+
+17 / 26
+
+Chez Wefox AI: une API client, deux
+équipes
+Chez Wefox AI: micro service pour stocker les résultats d’inférence et leurs feedback
+Team ML (Python)
+
+Lib Python
+
+PyO3
+
+Crate Rust
+
+API résultats inférence
+et feedbacks
+
+Team API (Rust)
+
+Implémentation partagée, un contrat adapté à chaque équipe, on masque le détail d’implémentation
+
+18 / 26
+
+Télémétrie: comment propager la
+trace?
+Python · otel-python
+trace_id ABC · span_id
+001
+
+frontière PyO3
+
+contexte perdu
+
+Rust · opentelemetry-rust
+trace_id ? · span_id ?
+
+Ce qui ne traverse pas Sens
+Le pont
+Les logs tracing
+Rust → Python pyo3-log
+Le contexte de trace
+Python → Rust W3C TraceContext
+
+19 / 26
+
+Les logs passent
+1
+
+// tracing = { version = "0.1", features = ["log-always"] }
+
+2
+
+#[pymodule]
+
+3
+
+mod rusty_otel {
+
+4
+
+#[pymodule_export]
+
+5
+
+use super::render;
+
+Rust
+
+6
+7
+
+#[pymodule_init]
+
+8
+
+fn init(m: &Bound<'_, PyModule>) -> PyResult<()> {
+
+9
+
+pyo3_log::init();
+
+// log → logging Python
+
+10
+
+telemetry::init();
+
+// subscriber tracing + exporter OTel
+
+11
+12
+
+Ok(())
+}
+
+13 }
+1 import rusty_otel
+
+# appel de init
+
+1 INFO app
+
+[trace=6a79…5545] appel du moteur Rust
+
+2 INFO rusty_otel
+
+[trace=6a79…5545] rendu de 53 octets de markdown
+
+Python
+Text
+
+20 / 26
+
+Le contexte aussi
+1
+
+//
+
+Récupère le context OTel de Python, et le passe en Rust
+
+2
+
+fn python_context(py: Python<'_>) -> PyResult<Context> {
+
+3
+
+let carrier = PyDict::new(py);
+
+4
+
+py.import("opentelemetry.propagate")?
+
+5
+
+.call_method1("inject", (&carrier,))?;
+
+Rust
+
+// {"traceparent": "00-6a79…-01"}
+
+6
+7
+
+let carrier = carrier.extract::<HashMap<String, String>>()?;
+
+8
+
+let context = global::get_text_map_propagator(|prop| prop.extract(&carrier));
+
+9
+
+Ok(context)
+
+10 }
+1 let span = tracing::info_span!("render", bytes = input.len());
+
+Rust
+
+2 let parent = python_context(py).unwrap_or_default();
+3 if let Err(err) = span.set_parent(parent) {
+4
+
+tracing::warn!("contexte Python non rattaché : {err}");
+
+5 }
+6 // Tip: utiliser des macro_rules pour simplifier ce code
+
+pyo3.rs/v0.29.3/ecosystem/tracing
+
+21 / 26
+
+L’addition
+
+Ce que ça coûte, ce que ça rapporte
+
+Ce qui coince
+• Pas de génériques dans les classes: #[pyclass] struct Container<T>
+• Pas de lifetime dans les classes: #[pyclass] struct Container<'a>
+• Pas d’interop traits vers protocoles, par ex. Iterator ne devient pas itérable sans écrire manuellement les
+__iter__ & __next__
+• La génération des .pyi n’est pas automatique, Python typing hints, #5137
+• Ne pas bloquer le GIL
+
+23 / 26
+
+Tips
+• Réduire la surface d’interop
+• Batcher, un appel pour 1 M d’éléments, pas 1 M d’appels
+• maturin-import-hook ou un watcher comme bacon
+• py.detach(...) sur les sections CPU-bound et les I/O bloquantes si on block_on
+• Tester des deux côtés avec pytest et cargo test
+• py-spy: le flamegraph peut voir les frames Rust
+• Faire attention aux mesures de performance: --release
+
+24 / 26
+
+Quand ça vaut le coup
+1. Optimisation: garder l’API Python, remplacer les modules à optimiser par du Rust. Par exemple Polars,
+pydantic-core, …
+2. API polyglotte: un noyau Rust, exposé partout Par exemple OpenDAL, xberg, …
+3. Prototyper en Python puis migrer en Rust: itérer +vite, faire performant quand on est stable
+4. Sandboxing, plugins: controller du code Python non-fiable.Mais est-ce que WASM, ou les microVM ne
+sont pas mieux pour ça ?
+
+25 / 26
+
+Références
+Merci !
+Des questions ?
+• Outils - pyo3.rs · maturin.rs · écosystème PyO3 · pyo3-async-runtimes · rust-numpy · py-spy · maturinimport-hook
+• Les talks de David Hewitt, mainteneur PyO3 - PyO3 in depth · Free-threaded Python · 5 years of Rust in
+Python · ITW - From Python to Rust and Back Again
+• Le code de cette conf - github.com/ilaborie/rust-python-talk slides
+
+26 / 26
+
+

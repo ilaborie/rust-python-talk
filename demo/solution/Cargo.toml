@@ -1,0 +1,12 @@
+[package]
+name = "rusty_md"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+name = "md"
+crate-type = ["cdylib"]
+
+[dependencies]
+comrak = "0.54"
+pyo3 =  "0.29"

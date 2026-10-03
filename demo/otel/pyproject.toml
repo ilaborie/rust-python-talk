@@ -1,0 +1,18 @@
+[build-system]
+requires = ["maturin>=1.9,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "rusty-otel"
+requires-python = ">=3.8"
+dynamic = ["version"]
+
+[dependency-groups]
+demo = [
+    "maturin>=1.9,<2.0",
+    "opentelemetry-distro",
+    "opentelemetry-instrumentation-logging",
+]
+
+[tool.maturin]
+features = ["pyo3/extension-module"]
